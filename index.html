@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .divUm {
+        height: 20vh;
+
+    }
+
+    .divDois {
+        position: relative;
+        height: 20vh;
+
+
+    }
+
+    .chave {
+        height: 20vh;
+
+
+    }
+
+    .referencia {
+        display: none;
+    }
+    .divTres{
+        display: flex;
+        background-color: rgba(85, 100, 190, 0.205);
+        padding: 0px;
+        margin: 0px;
+    }
+    .adcionarValor {
+        display: none;
+        width: 50vh;
+        padding: 5px;
+        margin: 0px;
+        
+    }
+    .adcionarValor input{
+        margin: 5px;
+    }
+    .moficiarValor{
+        display: none; 
+    }
+</style>
+
+<body>
+    <form action="/gerador" method="post">
+        <h1 class="titulo">Criar uma entidade com um atributo</h1>
+        <div class="divUm">
+            <label class="entidade" for="idEntidade">Criar tabela</label><br>
+            <input class="entidade" type="text" id="idEntidade" name="Entidade"><br>
+
+     
+
+            <label class="atributo" for="idAtributos">Atributos</label><br>
+            <input class="atributo" type="text" id="idAtributos" name="Atributo">
+        </div>
+        <!--cdivUm" end-->
+        <!--se é chave primaria se é estrangeira -->
+        <div class="divDois">
+            <div class="chave">
+                <input value="pk" type="checkbox" id="idChave" name="chave" onclick="soEscolheUm(2)">
+                <label for="idChave">tipo chave primária </label>
+
+                <input value="fk" onclick="soEscolheUm(3)" type="checkbox" id="idChaveEst" name="chave"><label
+                    for="idChaveEst">tipo chave estrangeira</label>
+
+                <input value="nNull" onclick="soEscolheUm(4)" type="checkbox" id="nNulo" name="chave"><label
+                    for="nNulo">não pode ser nulo</label>
+
+                <input value="pNull" onclick="soEscolheUm(5)" type="checkbox" id="pNulo" name="chave"><label
+                    for="pNulo">pode ser nulo</label>
+                <br />
+                <!--Referencia-->
+                <div class="referencia">
+                    <input type="text" id="idReferencia" name="referencia"><label for="idReferencia">referência
+                        tabela(atributo) </label>
+                </div>
+
+
+
+            </div>
+        </div>
+        <!--divDois-->
+        <!--radio-->
+        <div class="divTres">
+            <div class="divRadio">
+                <input checked="checked" class="mudar" type="radio" id="idCriaEntidade" name="escolhaAcao"
+                    value="Criar uma Entidade" onclick="opcoes(1)">
+                <label for="idCriaEntidade">Criar uma entidade </label><br /><br />
+
+                <input class="mudar" type="radio" id="idAdcionarDado" name="escolhaAcao"
+                    value="adiciona dado a uma entidade" onclick="opcoes(2)">
+                <label for="idAdcionarDado">Adicionar mais um atributo </label><br /><br />
+
+                <input class="mudar" type="radio" id="idDeletaEntidade" name="escolhaAcao" value="Deleta uma Entidade"
+                    onclick="opcoes(3)">
+                <label for="idDeletaEntidade">Delete uma entidade </label><br /><br />
+
+                <input class="mudar" type="radio" id="idvalorAtributo" name="escolhaAcao"
+                    value="adValorAtributo" onclick="opcoes(4)">
+                <label for="idvalorAtributo">Adcione um valor a um atributo </label><br /><br />
+                
+                <input class="mudar" type="radio" id="idModifValorAtributo" name="escolhaAcao"
+                value="modifValorAtributo" onclick="opcoes(5)">
+                <label for="idModifValorAtributo">Modificar um valor de um atributo </label>
+                <br /><br />
+            
+            </div><!--end div radio-->
+            
+        <!--aqui fica os campos de adcionar valores para os atributos-->
+            <div class="adcionarValor">
+                <input  type="text" name="valorUm" >
+                <input  type="text" name="valorDois" > 
+                <input  type="text" name="valorTres" >
+                <input  type="text" name="valorQuatro" > 
+            </div>
+            <div class="adcionarValor">
+                <input  type="text" name="valorCinco" >
+                <input  type="text" name="valorSeis" > 
+                <input  type="text" name="valorSete" >
+                <input  type="text" name="valorOito" > 
+            </div>
+        <!--end aqui fica os campos de adcionar valores para os atributos-->
+         
+
+         <!--aqui fica os campos de modificar valores para os atributos-->
+         <div class="moficiarValor">
+            <label for="">Novo valor:</label><br>
+            <input  type="text" name="novoValor" ><br>
+            <label for="">Local:</label><br>
+            <input  type="text" name="local" >
+            <p>exemplo:999-999-999 (CPF novo)  </p>
+            <p>exemplo: CPF='888-999-555' </p>
+        </div>
+        
+        <!--end aqui fica os campos de modificar valores para os atributos-->
+
+        </div>
+        
+
+
+
+
+        <input type="submit" value="Ok">
+        <!--coloquei como button -->
+    </form>
+
+    <script>
+        function ligarElemento(p, noneInitial) {
+            var x = document.getElementsByClassName(p);
+            
+            for (i = 0; i < x.length; i++) {
+                 
+                x[i].style.display = noneInitial;
+
+            }
+        }
+        
+        function mudarHtml(p1, p2, texto) {
+            var x = document.getElementsByClassName(p1)[p2];
+            x.innerHTML = texto;
+        }
+        
+
+
+
+
+
+        function opcoes(p) {
+            switch (p) {
+                case 1:
+                    mudarHtml("titulo", 0, "Crie uma entidade")
+                    mudarHtml("atributo", 0, "atributos")
+                    ligarElemento("atributo", "initial")
+                    ligarElemento("chave", "initial")
+                    ligarElemento("adcionarValor", "none")
+                    ligarElemento("moficiarValor", "none")
+                    //--------------
+                  
+
+                    break
+
+                case 2:
+                    mudarHtml("titulo", 0, "Adicione um dado a um atributo")
+                    mudarHtml("entidade", 0, "Entidade")
+                    mudarHtml("atributo", 0, "atributos")
+                    ligarElemento("atributo", "initial")
+                    ligarElemento("chave", "initial")
+                    ligarElemento("adcionarValor", "none")
+                    ligarElemento("moficiarValor", "none")
+                    break
+
+                case 3:
+                    mudarHtml("titulo", 0, "Delete uma entidade")
+                    mudarHtml("entidade", 0, "deletar tabela")
+                    mudarHtml("atributo", 0, "atributos")
+                    ligarElemento("atributo", "none")
+                    ligarElemento("chave", "none")
+                    ligarElemento("adcionarValor", "none")
+                    ligarElemento("moficiarValor", "none")
+                    break
+
+                case 4:
+                    mudarHtml("titulo", 0, "Escolha uma entidade")
+                    mudarHtml("entidade", 0, "Escolha a entidade")
+                    mudarHtml("atributo", 0, "O atributo da entidade")
+                    ligarElemento("atributo", "initial")
+                    ligarElemento("chave", "none")
+                    ligarElemento("adcionarValor", "initial")
+                    ligarElemento("moficiarValor", "none")
+                    break
+                case 5:
+                    mudarHtml("titulo", 0, "Escolha uma entidade")
+                    mudarHtml("entidade", 0, "Escolha a entidade")
+                    mudarHtml("atributo", 0, "O atributo da entidade")
+                    ligarElemento("atributo", "initial")
+                    ligarElemento("chave", "initial")
+                    ligarElemento("adcionarValor", "none")
+                    ligarElemento("moficiarValor", "initial")
+                    break
+                    
+                //----
+
+            }
+
+        }
+
+
+        //vou inpedir que dois checkbox de chave sejam marcados juntos
+
+        
+        function soEscolheUm(ativar) {
+            ativarEsse = ativar;
+
+
+            var inputLista = document.getElementsByTagName("input");
+           
+            for (let i = 2; i <= 5; i++) {
+
+               
+                if (inputLista[i] != inputLista[ativar]) { //todos menos esse devem ser desativados
+
+                    inputLista[i].checked = false;
+
+                }
+            }
+            if (inputLista[ativar] == inputLista[3]) {
+                ligarElemento("referencia", "initial")
+
+            } else {
+                ligarElemento("referencia", "none")
+            }
+
+        }
+
+
+
+    </script>
+
+</body>
+
+</html>
